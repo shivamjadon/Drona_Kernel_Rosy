@@ -72,7 +72,7 @@
         /* Enable gpu cooling device */
 		#cooling-cells = <2>;
 
-		qcom,idle-timeout = <80>; //msecs
+		qcom,idle-timeout = <64>; //msecs
 		qcom,deep-nap-timeout = <100>; //msecs
 		qcom,strtstp-sleepwake;
 
