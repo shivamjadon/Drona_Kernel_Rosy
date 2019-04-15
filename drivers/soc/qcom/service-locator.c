@@ -245,7 +245,6 @@ static int service_locator_send_msg(struct pd_qmi_client_data *pd)
 	req->domain_offset_valid = true;
 	req->domain_offset = 0;
 
-	pd->domain_list = NULL;
 	do {
 		req->domain_offset += domains_read;
 		rc = servreg_loc_send_msg(&req_desc, &resp_desc, req, resp,
@@ -274,7 +273,6 @@ static int service_locator_send_msg(struct pd_qmi_client_data *pd)
 		if (db_rev_count != resp->db_rev_count) {
 			pr_err("Service Locator DB updated for client %s\n",
 				pd->client_name);
-			kfree(pd->domain_list);
 			rc = -EAGAIN;
 			goto out;
 		}
@@ -379,6 +377,7 @@ int get_service_location(struct pd_qmi_client_data *data)
 		pr_err("Invalid input!\n");
 		goto err;
 	}
+	data->domain_list = NULL;
 	rc = init_service_locator();
 	if (rc) {
 		pr_err("Unable to connect to service locator!, rc = %d\n", rc);
@@ -389,6 +388,7 @@ int get_service_location(struct pd_qmi_client_data *data)
 		pr_err("Failed to get process domains for %s for client %s\n",
 			data->service_name, data->client_name);
 err:
+	kfree(data->domain_list);
 	return rc;
 }
 EXPORT_SYMBOL(get_service_location);
