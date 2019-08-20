@@ -3047,5 +3047,5 @@ extern int ext4_resize_begin(struct super_block *sb);
 extern void ext4_resize_end(struct super_block *sb);
 
 #endif	/* __KERNEL__ */
-
+#define EFSCORRUPTED	EUCLEAN		/* Filesystem is corrupted */
 #endif	/* _EXT4_H */
