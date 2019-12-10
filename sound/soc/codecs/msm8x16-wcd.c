@@ -4272,6 +4272,10 @@ static int msm8x16_wcd_lo_dac_event(struct snd_soc_dapm_widget *w,
 			MSM8X16_WCD_A_ANALOG_RX_LO_DAC_CTL, 0x80, 0x80);
 		snd_soc_update_bits(codec,
 			MSM8X16_WCD_A_ANALOG_RX_LO_DAC_CTL, 0x08, 0x00);
+		#ifdef CONFIG_D1_ROSY
+		snd_soc_update_bits(codec,
+			MSM8X16_WCD_A_ANALOG_RX_LO_EN_CTL, 0x40, 0x40);
+		#endif
 		break;
 	case SND_SOC_DAPM_POST_PMD:
 		usleep_range(20000, 20100);
@@ -4283,6 +4287,10 @@ static int msm8x16_wcd_lo_dac_event(struct snd_soc_dapm_widget *w,
 			MSM8X16_WCD_A_ANALOG_RX_LO_DAC_CTL, 0x08, 0x00);
 		snd_soc_update_bits(codec,
 			MSM8X16_WCD_A_ANALOG_RX_LO_EN_CTL, 0x80, 0x00);
+		#ifdef CONFIG_D1_ROSY
+		snd_soc_update_bits(codec,
+			MSM8X16_WCD_A_ANALOG_RX_LO_EN_CTL, 0x40, 0x00);
+		#endif
 		snd_soc_update_bits(codec,
 			MSM8X16_WCD_A_ANALOG_RX_LO_EN_CTL, 0x20, 0x00);
 		snd_soc_update_bits(codec,
