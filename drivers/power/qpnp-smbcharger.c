@@ -41,6 +41,10 @@
 #include <linux/ktime.h>
 #include <linux/pmic-voter.h>
 
+#ifdef CONFIG_FORCE_FAST_CHARGE
+#include <linux/fastchg.h>
+#endif
+
 /* Mask/Bit helpers */
 #define _SMB_MASK(BITS, POS) \
 	((unsigned char)(((1 << (BITS)) - 1) << (POS)))
@@ -1539,6 +1543,8 @@ static int smbchg_charging_en(struct smbchg_chip *chip, bool en)
 #define CURRENT_500_MA		500
 #define CURRENT_900_MA		900
 #define CURRENT_1500_MA		1500
+#define CURRENT_1600_MA		1600
+#define CURRENT_2000_MA		2000
 #define SUSPEND_CURRENT_MA	2
 #define ICL_OVERRIDE_BIT	BIT(2)
 static int smbchg_usb_suspend(struct smbchg_chip *chip, bool suspend)
@@ -1853,9 +1859,13 @@ static int smbchg_set_usb_current_max(struct smbchg_chip *chip,
 				pr_err("Couldn't set CMD_IL rc = %d\n", rc);
 				goto out;
 			}
-			chip->usb_max_current_ma = 500;
+			chip->usb_max_current_ma = 1600;
 		}
-		if (current_ma == CURRENT_900_MA) {
+#ifdef CONFIG_FORCE_FAST_CHARGE
+ 		if ((force_fast_charge > 0 && current_ma == CURRENT_1600_MA) || current_ma == CURRENT_2000_MA) {
+ #else
+ 		if (current_ma == CURRENT_2000_MA) {
+ #endif
 			rc = smbchg_sec_masked_write(chip,
 					chip->usb_chgpth_base + CHGPTH_CFG,
 					CFG_USB_2_3_SEL_BIT, CFG_USB_3);
@@ -1871,7 +1881,7 @@ static int smbchg_set_usb_current_max(struct smbchg_chip *chip,
 				pr_err("Couldn't set CMD_IL rc = %d\n", rc);
 				goto out;
 			}
-			chip->usb_max_current_ma = 900;
+			chip->usb_max_current_ma = 2000;
 		}
 		break;
 	case POWER_SUPPLY_TYPE_USB_CDP:
