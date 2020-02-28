@@ -388,7 +388,7 @@ static struct clk_freq_tbl ftbl_gfx3d_clk_src[] = {
 	F_MM( 560000000,    1120000000,               gpll3,    1,    0,     0),
 	F_MM( 650000000,    1300000000,               gpll3,    1,    0,     0),
 	F_MM( 700000000,    1400000000,               gpll3,    1,    0,     0),
-	F_MM( 750000000,    1460000000,               gpll3,    1,    0,     0),
+	F_MM( 747000000,    1494000000,               gpll3,    1,    0,     0),
 
 	F_END
 };
@@ -408,7 +408,7 @@ static struct clk_freq_tbl ftbl_gfx3d_clk_src_sdm450[] = {
 	F_MM( 460800000, FIXED_CLK_SRC,       gpll4_out_aux,  2.5,    0,     0),
 	F_MM( 510000000,    1020000000,               gpll3,    1,    0,     0),
 	F_MM( 560000000,    1120000000,               gpll3,    1,    0,     0),
-	F_MM( 740000000,    1480000000,               gpll3,    1,    0,     0),
+	F_MM( 747000000,    1480000000,               gpll3,    1,    0,     0),
 	F_END
 };
 
